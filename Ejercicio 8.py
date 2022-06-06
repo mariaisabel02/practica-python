@@ -7,3 +7,11 @@
 # cuadrados inscritos. Nota: n debe ser suficientemente grande como
 # par meter todos lo m cuadrados y que el menor cuadrado tenga un lado
 # de al menos una unidad.
+
+def areaCuadradoInscrito():
+    # ladoCuadradoSuperior
+    n = input("Escriba el valor del lado del cuadrado superior: ")
+
+    # cantidadCuadradosInscritos
+    m = input("Escriba la cantidad de cuadrados inscritos: ")
+
