@@ -22,6 +22,7 @@ class JugadorUsuario():
     def jugar(self):
         jugada = input("Indique su jugada. Escriba piedra, papel o tijera: ")
         self.jugadas.append(jugada)
+        return jugada
 
 
 class JugadorComputador():
@@ -35,11 +36,12 @@ class JugadorComputador():
         aleatorio = random.randrange(0, 3)
         jugada = opciones[aleatorio]
         self.jugadas.append(jugada)
+        return jugada
 
 
 class PiedraPapelTijera():
     def __init__(self):
-        self.opciones = ["Piedra", "Papel", "Tijera"]
+        self.opciones = ["piedra", "papel", "tijera"]
         self.jugadores = []
 
     def crearJugadores(self):
@@ -48,7 +50,7 @@ class PiedraPapelTijera():
         for x in range(2):  # tenemos dos jugadores que pueden ser humanos o computadores
             entradaValida = False
             while not entradaValida:
-                jugador = input("Jugador " + str(x + 1) + ": ")
+                jugador = input("\nJugador " + str(x + 1) + ": ")
 
                 if jugador == "humano":
                     entradaValida = True
@@ -63,20 +65,77 @@ class PiedraPapelTijera():
                     print("Por favor escriba 'humano' o 'computadora'")
 
     def iniciarJuego(self):
-        for jugador in range(2):
-            jugadorActual = self.jugadores[jugador]
-            print("Es el turno de " + jugadorActual.nombre)
-            if jugadorActual.tipo == "usuario":
-                jugadorActual.jugar()
-            else:
-                jugadorActual.jugar(self.opciones)
+        continuar = True
+        jugadaUsuario = ""
+        jugadaComputador = ""
+        jugada = ["",""]
 
-    def actualizarPuntaje(self):
-        pass
+        while continuar:
+            for jugador in range(2):  # en cada turno juegan ambos jugadores
+
+                jugadorActual = self.jugadores[jugador]
+                print("\nEs el turno de " + jugadorActual.nombre)
+
+                if jugadorActual.tipo == "usuario":
+                    print(str(jugador))
+                    jugada[jugador] = jugadorActual.jugar()
+                else:
+                    jugada[jugador] = jugadorActual.jugar(self.opciones)
+
+                self.actualizarPuntaje(jugada[0], jugada[1])
+
+            seguir = input("\nEscriba continuar para volver a jugar o salir para terminar: ")
+            if seguir != "continuar": continuar = False
+
+        self.determinarGanador()
+
+    def actualizarPuntaje(self, jugada1, jugada2):  # recibe jugadas de ambos participantes en el turno actual
+        # jugaron lo mismo y suma un punto
+        print("Las jugadas fueron: " + jugada1 + " - " + jugada2)
+
+        if jugada1 == jugada2:
+            self.jugadores[0].puntaje += 1
+            self.jugadores[1].puntaje += 1
+            print("Ambos obtienen un punto")
+
+        # piedra papel
+        elif jugada1 == "piedra" and jugada2 == "papel":
+            print("3 puntos para " + self.jugadores[1].nombre)
+            self.jugadores[1].puntaje += 3
+
+        elif jugada2 == "piedra" and jugada1 == "papel":
+            print("3 puntos para " + self.jugadores[0].nombre)
+            self.jugadores[0].puntaje += 1
+
+        # papel tijera
+        elif jugada1 == "papel" and jugada2 == "tijera":
+            print("3 puntos para " + self.jugadores[1].nombre)
+            self.jugadores[1].puntaje += 3
+
+        elif jugada2 == "papel" and jugada1 == "tijera":
+            print("3 puntos para " + self.jugadores[0].nombre)
+            self.jugadores[0].puntaje += 1
+
+
+        # tijera piedra
+        elif jugada1 == "tijera" and jugada2 == "piedra":
+            print("3 puntos para " + self.jugadores[1].nombre)
+            self.jugadores[1].puntaje += 3
+
+        elif jugada2 == "tijera" and jugada1 == "piedra":
+            print("3 puntos para " + self.jugadores[0].nombre)
+            self.jugadores[1].puntaje += 1
 
     def determinarGanador(self):
-        pass
+        puntajeJugador1 = self.jugadores[0].puntaje
+        puntajeJugador2 = self.jugadores[1].puntaje
 
+        if puntajeJugador1 < puntajeJugador2:
+            print("Felicidades al ganador:" + self.jugadores[1].nombre)
+        elif puntajeJugador1 > puntajeJugador2:
+            print("Felicidades al ganador:" + self.jugadores[0].nombre)
+        else:
+            print("Ambos jugadores empataron!")
 
 juego = PiedraPapelTijera()
 juego.crearJugadores()
