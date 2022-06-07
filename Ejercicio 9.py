@@ -131,7 +131,6 @@ class PiedraPapelTijera():
         with open('bitacoraPPT.csv', 'a') as archivo:
             archivo.write(self.jugadores[0].nombre + ": " + str(self.jugadores[0].puntaje) + " , " + self.jugadores[1].nombre + ": " + str(self.jugadores[1].puntaje) + "\n")
 
-
     def determinarGanador(self):
         puntajeJugador1 = self.jugadores[0].puntaje
         puntajeJugador2 = self.jugadores[1].puntaje

@@ -9,9 +9,22 @@
 # de al menos una unidad.
 
 def areaCuadradoInscrito():
-    # ladoCuadradoSuperior
-    n = input("Escriba el valor del lado del cuadrado superior: ")
+    continuar = True
 
-    # cantidadCuadradosInscritos
-    m = input("Escriba la cantidad de cuadrados inscritos: ")
+    while continuar:
+        # cantidadCuadradosInscritos
+        m = int(input("Escriba la cantidad de rectangulos inscritos: "))
 
+        # ladoCuadradoSuperior
+        n = int(input("Escriba el valor del lado del rectangulo superior: "))
+
+        ladoCuadrado = n - (2 * m)
+
+        if ladoCuadrado >= 1:
+            #print("El valor del lado cabe en la cantidad de rectangulos")
+            print("El area del cuadrado es " + str(ladoCuadrado*ladoCuadrado))
+            continuar = False
+        else:
+            print("Escriba un lado mas grande para esa cantidad de rectangulos\n")
+
+areaCuadradoInscrito()
