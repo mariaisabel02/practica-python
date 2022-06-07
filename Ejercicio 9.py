@@ -77,13 +77,14 @@ class PiedraPapelTijera():
                 print("\nEs el turno de " + jugadorActual.nombre)
 
                 if jugadorActual.tipo == "usuario":
-                    print(str(jugador))
                     jugada[jugador] = jugadorActual.jugar()
                 else:
                     jugada[jugador] = jugadorActual.jugar(self.opciones)
 
                 self.actualizarPuntaje(jugada[0], jugada[1])
 
+            print("Las jugadas fueron: " + jugada[0] + " - " + jugada[1])
+            self.guardarBitacora()
             seguir = input("\nEscriba continuar para volver a jugar o salir para terminar: ")
             if seguir != "continuar": continuar = False
 
@@ -91,7 +92,7 @@ class PiedraPapelTijera():
 
     def actualizarPuntaje(self, jugada1, jugada2):  # recibe jugadas de ambos participantes en el turno actual
         # jugaron lo mismo y suma un punto
-        print("Las jugadas fueron: " + jugada1 + " - " + jugada2)
+        print("\n")
 
         if jugada1 == jugada2:
             self.jugadores[0].puntaje += 1
@@ -126,14 +127,19 @@ class PiedraPapelTijera():
             print("3 puntos para " + self.jugadores[0].nombre)
             self.jugadores[1].puntaje += 1
 
+    def guardarBitacora(self):
+        with open('bitacoraPPT.csv', 'a') as archivo:
+            archivo.write(self.jugadores[0].nombre + ": " + str(self.jugadores[0].puntaje) + " , " + self.jugadores[1].nombre + ": " + str(self.jugadores[1].puntaje) + "\n")
+
+
     def determinarGanador(self):
         puntajeJugador1 = self.jugadores[0].puntaje
         puntajeJugador2 = self.jugadores[1].puntaje
 
         if puntajeJugador1 < puntajeJugador2:
-            print("Felicidades al ganador:" + self.jugadores[1].nombre)
+            print("Felicidades al ganador: " + self.jugadores[1].nombre)
         elif puntajeJugador1 > puntajeJugador2:
-            print("Felicidades al ganador:" + self.jugadores[0].nombre)
+            print("Felicidades al ganador: " + self.jugadores[0].nombre)
         else:
             print("Ambos jugadores empataron!")
 
